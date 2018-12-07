@@ -1,4 +1,4 @@
-Use supervised_nn_range.py to run the program.
+Use supervised_nn_range.py to run the program.\n
 Important parameters:
   range
   epochs
