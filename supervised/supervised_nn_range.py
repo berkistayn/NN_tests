@@ -78,7 +78,7 @@ class Trainer(Visualizer):
             return None
 
     def create_NN(self):
-        self.NN = NN_w_range(range=self.range)
+        self.NN = NN_w_range(range=self.range, act_func='elu')
 
     def NN_move(self):
         if self.after_NN is not None:
@@ -216,7 +216,7 @@ class Trainer(Visualizer):
         # following does not work
         self.generateGrid_w_path(self.rows, self.cols, self.thresh)
         if self.after_Training is not None: # if training is on
-            random_curLoc_index = np.random.random_integers(0, int(self.rows / random_index_coeff), 1)[0]
+            random_curLoc_index = np.random.random_integers(0, int(len(self.path) / random_index_coeff), 1)[0]
             self.GWW.currentLoc = self.path[random_curLoc_index].copy()
             self.GWW.grid[0][0] = self.GWW.blocked
             self.GWW.grid[self.GWW.currentLoc[0], self.GWW.currentLoc[1]] = self.GWW.current
@@ -236,7 +236,7 @@ class Trainer(Visualizer):
 
 
 # Create Trainer
-T = Trainer(range=8, rows=35, cols=35, thresh=0.42, allowed_off_steps=3)
+T = Trainer(range=4, rows=50, cols=50, thresh=0.3, allowed_off_steps=3)
 # final step;
 T.startGUI()
 

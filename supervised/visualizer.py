@@ -13,8 +13,8 @@ class GameBoard(tk.Frame):
         self.rows = rows
         self.columns = columns
 
-        self.canvas_width  = 420
-        self.canvas_height = 420
+        self.canvas_width  = 750
+        self.canvas_height = 750
         # so that modifications can be made on GUI
         self.parent = parent
         # so that animations with pauses can be created
@@ -150,7 +150,7 @@ class GameBoard(tk.Frame):
 
 class Grid_Game:
     def __init__(self, width=10, height=10, threshold=0.25, grid_val=[1, 2, 3, 4],
-                 badmove_limit=5):
+                 badmove_limit=15):
         self.w = width
         self.h = height
         self.threshold = threshold  # percentage amount of blocks

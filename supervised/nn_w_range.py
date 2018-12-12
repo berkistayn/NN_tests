@@ -1,5 +1,5 @@
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten
+from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten, BatchNormalization
 from tensorflow.keras.layers import Conv2D, MaxPooling2D
 # more info on callbakcs: https://keras.io/callbacks/ model saver is cool too.
 from tensorflow.keras.callbacks import TensorBoard, EarlyStopping
@@ -27,24 +27,27 @@ import datetime
 #   Output: a vector of 4x1: confidence in {up, down, right, left}
 
 class NN_w_range:
-    def __init__(self, range):
+    def __init__(self, range, act_func='relu'):
         self.range = range
+        self.act_func = act_func
 
         self.model = None
-        self.createModel()
-
         self.last_output = None
         self.last_move   = None
+
+        self.createModel()
 
     def createModel(self, no_dense=2):
         dense_layer = no_dense
         layer_size = int(4 * (self.range * (self.range + 1) / 2))
 
         self.model = Sequential()
+        print(self.act_func)
         for _ in range(dense_layer):
             self.model.add(Dense(layer_size))
+            self.model.add(BatchNormalization())
+            self.model.add(Activation(self.act_func))
             self.model.add(Dropout(0.4))
-            self.model.add(Activation('relu'))
             #self.model.add(Activation('tanh'))
 
         # add the final layer
@@ -122,8 +125,8 @@ class NN_w_range:
         cur_time = cur_time.replace(' ', '__')
         cur_time = cur_time.replace(':', '_')
         cur_time = cur_time.replace('.', '__')
-        name = "{}-range-{}-off_steps-{}".format(range, allowed_off_steps,
-                                                 cur_time)
+        name = "{}-range-{}-off_steps-{}-{}".format(cur_time,range,allowed_off_steps,
+                                                    self.act_func)
         self.model.save_weights('weights/' + name + '.h5')
         print('Saved weights:   ', name)
 
